@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Warming Ceremony — Siddhartha & Yasaswini</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; height:100%; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+  }
+  section {
+    height: 100vh;
+    width: 100vw;
+    flex: 0 0 100vw;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #FBF3E3;
+  }
+  section img {
+    max-height: 100vh;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    font-size: 12px;
+    color: #7a2e12;
+    opacity: 0.7;
+    letter-spacing: 1px;
+  }
+  .nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(122,46,18,0.85);
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  .nav-arrow:hover { background: rgba(122,46,18,1); }
+  .nav-arrow:disabled { opacity: 0.25; cursor: default; }
+  #nav-up { left: 16px; }
+  #nav-down { right: 16px; }
+
+  /* ---- RSVP section: matching kolam-bordered card ---- */
+  #rsvp-section { padding: 0; }
+  #rsvp-card {
+    position: relative;
+    height: 100vh;
+    max-height: 100vh;
+    aspect-ratio: 1100 / 2160;
+    background-image: url('rsvp-frame.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  #rsvp-inner {
+    position: absolute;
+    top: 16%;
+    bottom: 5%;
+    left: 13%;
+    right: 13%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .wrap { width:100%; margin:0 auto; }
+  h1 { text-align:center; color:#6e1e14; font-size:clamp(14px,2vw,22px); margin:0 0 2px; }
+  p.sub { text-align:center; color:#8c4224; margin:0 0 10px; font-size:clamp(10px,1.3vw,13px); }
+  label { display:block; font-size:clamp(9px,1.1vw,12px); color:#5a5a5a; margin-bottom:2px; }
+  input, textarea { width:100%; box-sizing:border-box; padding:6px 8px; margin-bottom:8px; border:1px solid #cfae94; border-radius:5px; font-family:inherit; font-size:clamp(11px,1.3vw,14px); background:#fffdf8; }
+  .attend-row { display:flex; gap:6px; margin-bottom:8px; }
+  .attend-btn { flex:1; padding:6px; border:1px solid #cfae94; border-radius:5px; background:#fffdf8; cursor:pointer; font-size:clamp(10px,1.2vw,13px); }
+  .attend-btn.selected { background:#6e1e14; color:#fff; border-color:#6e1e14; }
+  #guestWrap { display:none; }
+  button#submitBtn { width:100%; padding:8px; background:#b05833; color:#fff; border:none; border-radius:5px; font-size:clamp(12px,1.5vw,15px); cursor:pointer; margin-top:2px; }
+  button#submitBtn:disabled { opacity:0.6; cursor:default; }
+  #status { text-align:center; margin-top:8px; font-size:clamp(10px,1.2vw,13px); min-height:16px; }
+  #thankyou { display:none; text-align:center; }
+  #thankyou .frame { border:2px double #8c4224; border-radius:10px; padding:18px 14px; background:#fffdf8; }
+  #thankyou h2 { color:#6e1e14; margin:0 0 6px; font-size:clamp(14px,2vw,20px); }
+  #thankyou p { color:#5a5a5a; font-size:clamp(10px,1.3vw,14px); }
+</style>
+</head>
+<body>
+
+<button id="nav-up" class="nav-arrow" aria-label="Previous page">&larr;</button>
+<button id="nav-down" class="nav-arrow" aria-label="Next page">&rarr;</button>
+
+<section id="page-home">
+  <img src="invitation_page.png" alt="Housewarming Ceremony invitation, Siddhartha and Yasaswini">
+  <a href="https://www.google.com/maps/search/?api=1&query=649+Summit+Hill+Way%2C+Cumming%2C+GA+30040" target="_blank" rel="noopener" style="position:absolute; left:50%; top:34.5%; transform:translateX(-50%); background:#b05833; color:#fff; padding:6px 14px; border-radius:20px; font-size:13px; text-decoration:none; font-family:Georgia,serif; box-shadow:0 2px 6px rgba(0,0,0,0.25); white-space:nowrap;">📍 Get Directions</a>
+  <div class="scroll-hint">scroll right &rarr;</div>
+</section>
+
+<section id="rsvp-section">
+ <div id="rsvp-card">
+ <div id="rsvp-inner">
+  <div class="wrap" id="formWrap">
+    <div style="height:8px;"></div>
+
+    <label>Your name</label>
+    <input id="name" type="text" placeholder="Full name">
+
+    <label>Email</label>
+    <input id="email" type="email" placeholder="name@example.com">
+
+    <label>Phone (optional)</label>
+    <input id="phone" type="tel" placeholder="(404) 555-0172">
+
+    <label>Will you be able to join us?</label>
+    <div class="attend-row">
+      <button type="button" class="attend-btn" data-val="Yes">Yes</button>
+      <button type="button" class="attend-btn" data-val="No">No</button>
+      <button type="button" class="attend-btn" data-val="Maybe">Maybe</button>
+    </div>
+
+    <div id="guestWrap">
+      <label>Number of guests</label>
+      <input id="guests" type="number" min="1" max="20" placeholder="1">
+    </div>
+
+    <label>Message (optional)</label>
+    <textarea id="message" rows="2" placeholder="Any message for the hosts"></textarea>
+
+    <button id="submitBtn">Submit RSVP</button>
+    <div id="status"></div>
+  </div>
+
+  <div class="wrap" id="thankyou">
+    <div class="frame">
+      <h2>Thank you!</h2>
+      <p>Your RSVP has been recorded. We look forward to celebrating with you.</p>
+    </div>
+  </div>
+ </div>
+ </div>
+</section>
+
+<script>
+  // ===== EDIT THESE BEFORE DEPLOYING =====
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwn-XyfVN7ckJEV4njqJ4N-SSSgR_8E6NB6BO9eRsVSImxkyl2Z1CGt7-jVYnCHDmRKQ/exec';
+  var POST_SECRET = 'RSVP_House_Warming'; // must match POST_SECRET in Code.gs
+  // ========================================
+
+  var attending = null;
+  var sections = Array.from(document.querySelectorAll('section'));
+  var upBtn = document.getElementById('nav-up');
+  var downBtn = document.getElementById('nav-down');
+
+  function currentIndex() {
+    var scrollPos = window.scrollX;
+    var idx = 0;
+    sections.forEach(function(s, i){
+      if (s.offsetLeft <= scrollPos + 10) idx = i;
+    });
+    return idx;
+  }
+  function updateArrows() {
+    var idx = currentIndex();
+    upBtn.disabled = idx === 0;
+    downBtn.disabled = idx === sections.length - 1;
+  }
+  upBtn.addEventListener('click', function(){
+    var idx = Math.max(0, currentIndex() - 1);
+    sections[idx].scrollIntoView({ behavior: 'smooth' });
+  });
+  downBtn.addEventListener('click', function(){
+    var idx = Math.min(sections.length - 1, currentIndex() + 1);
+    sections[idx].scrollIntoView({ behavior: 'smooth' });
+  });
+  window.addEventListener('scroll', updateArrows);
+  updateArrows();
+
+  document.querySelectorAll('.attend-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      attending = btn.dataset.val;
+      document.querySelectorAll('.attend-btn').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      document.getElementById('guestWrap').style.display = attending === 'Yes' ? 'block' : 'none';
+    });
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', function(){
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var guests = attending === 'Yes' ? (document.getElementById('guests').value || '1') : '';
+    var message = document.getElementById('message').value.trim();
+    var statusEl = document.getElementById('status');
+
+    if (!name || !email || !attending) {
+      statusEl.textContent = 'Please fill name, email, and attendance.';
+      statusEl.style.color = '#a32d2d';
+      return;
+    }
+
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      statusEl.textContent = 'Please enter a valid email address.';
+      statusEl.style.color = '#a32d2d';
+      return;
+    }
+
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    statusEl.textContent = 'Submitting...';
+    statusEl.style.color = '#5a5a5a';
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ secret: POST_SECRET, name: name, email: email, phone: phone, attending: attending, guests: guests, message: message })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if (data.status === 'ok') {
+        document.getElementById('formWrap').style.display = 'none';
+        document.getElementById('thankyou').style.display = 'block';
+      } else {
+        statusEl.textContent = data.message || 'Something went wrong, try again.';
+        statusEl.style.color = '#a32d2d';
+        btn.disabled = false;
+      }
+    })
+    .catch(function(){
+      statusEl.textContent = 'Could not reach the server, try again.';
+      statusEl.style.color = '#a32d2d';
+      btn.disabled = false;
+    });
+  });
+</script>
+</body>
+</html>
