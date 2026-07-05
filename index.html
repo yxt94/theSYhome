@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>House Warming Ceremony — Siddhartha & Yasaswini</title>
 <style>
   * { box-sizing: border-box; }
@@ -168,14 +168,14 @@
 
   var attending = null;
   if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
-  window.scrollTo(0, 0);
-  window.addEventListener('load', function(){ window.scrollTo(0, 0); });
+  document.body.scrollLeft = 0;
+  window.addEventListener('load', function(){ document.body.scrollLeft = 0; });
   var sections = Array.from(document.querySelectorAll('section'));
   var upBtn = document.getElementById('nav-up');
   var downBtn = document.getElementById('nav-down');
 
   function currentIndex() {
-    var scrollPos = window.scrollX;
+    var scrollPos = document.body.scrollLeft;
     var idx = 0;
     sections.forEach(function(s, i){
       if (s.offsetLeft <= scrollPos + 10) idx = i;
@@ -195,7 +195,7 @@
     var idx = Math.min(sections.length - 1, currentIndex() + 1);
     sections[idx].scrollIntoView({ behavior: 'smooth' });
   });
-  window.addEventListener('scroll', updateArrows);
+  document.body.addEventListener('scroll', updateArrows);
   updateArrows();
 
   document.querySelectorAll('.attend-btn').forEach(function(btn){
